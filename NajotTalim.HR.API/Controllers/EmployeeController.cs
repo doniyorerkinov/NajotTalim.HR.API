@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NajotTalim.HR.API.Models;
+using System.Threading.Tasks;
 
 namespace NajotTalim.HR.API.Controllers
 {
@@ -24,8 +26,11 @@ namespace NajotTalim.HR.API.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Employee employee)
         {
+            var createdEmployee = await MockEmployeeRepository.CreateEmployee(employee);
+            var routeValue = new { id = createdEmployee.Id };
+          return CreatedAtRoute(routeValue, createdEmployee);
         }
 
         // PUT api/<EmployeeController>/5
