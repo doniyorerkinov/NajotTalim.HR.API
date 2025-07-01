@@ -4,12 +4,16 @@ using System.Threading.Tasks;
 
 namespace NajotTalim.HR.API
 {
-    public static class MockEmployeeRepository
+    public class MockEmployeeRepository : IEmployeeRepository
     {
         // CuncurrentDictionary multithreadingda foydalaniladi, bu api da ishlatilganda bir vaqtda bir nechta request kelsa bu thread save bo'ladi
         private static ConcurrentDictionary<int, Employee> _employees = new ConcurrentDictionary<int, Employee>();
         private static object locker = new();
-        public static void Init()
+        public MockEmployeeRepository()
+        {
+            Init();
+        }
+        private static void Init()
         {
             _employees.TryAdd(1, new Employee { Id = 1, FullName = "Ali Valiyev", Department = "IT", Email = "ali.valiyev@example.com" });
             _employees.TryAdd(2, new Employee { Id = 2, FullName = "Gulnora Karimova", Department = "HR", Email = "gulnora.k@example.com" });
@@ -23,17 +27,17 @@ namespace NajotTalim.HR.API
             _employees.TryAdd(10, new Employee { Id = 10, FullName = "Laylo Nurullayeva", Department = "Marketing", Email = "laylo.n@example.com" });
         }
 
-        public static async Task<IEnumerable<Employee>> GetEmployees()
+        public async Task<IEnumerable<Employee>> GetEmployees()
         {
             return await Task.FromResult(_employees.Values);
         }
 
-        public static async Task<Employee> GetEmployee(int id)
+        public async Task<Employee> GetEmployee(int id)
         {
             return await Task.FromResult(_employees[id]);
         }
 
-        public static async Task<Employee> CreateEmployee(Employee employee)
+        public async Task<Employee> CreateEmployee(Employee employee)
         {
             int newId = 0;
             // lock 1 ta thread 1 ta taskni bajaradi
@@ -45,5 +49,6 @@ namespace NajotTalim.HR.API
             _employees.TryAdd(newId, employee);
             return await Task.FromResult(employee);
         }
+
     }
 }

@@ -16,6 +16,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+// Dependency Injection
+// IEmployeeRepository interfeysini MockEmployeeRepository orqali implement qildik
+builder.Services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
 
 var app = builder.Build();
 
@@ -32,6 +35,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-MockEmployeeRepository.Init();
 
 app.Run();
+
+

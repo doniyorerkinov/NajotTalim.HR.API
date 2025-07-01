@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NajotTalim.HR.API.Models;
-using System.Threading.Tasks;
 
 namespace NajotTalim.HR.API.Controllers
 {
@@ -8,11 +7,19 @@ namespace NajotTalim.HR.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
+        private readonly IEmployeeRepository _employeeRepository;
+
+        public EmployeeController(IEmployeeRepository employeeRepository)
+        {
+            _employeeRepository = employeeRepository;
+        }
+
+
         // GET: api/<EmployeeController>
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await MockEmployeeRepository.GetEmployees());
+            return Ok(await _employeeRepository.GetEmployees());
         }
 
         // GET api/<EmployeeController>/5
@@ -21,14 +28,14 @@ namespace NajotTalim.HR.API.Controllers
         {
             if (id == 0) return NotFound($"Employee with the given id: {id} not found.");
             else if (id < 0) return BadRequest("Wrong Data");
-            return Ok(await MockEmployeeRepository.GetEmployee(id));
+            return Ok(await _employeeRepository.GetEmployee(id));
         }
 
         // POST api/<EmployeeController>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Employee employee)
         {
-            var createdEmployee = await MockEmployeeRepository.CreateEmployee(employee);
+            var createdEmployee = await _employeeRepository.CreateEmployee(employee);
             var routeValue = new { id = createdEmployee.Id };
           return CreatedAtRoute(routeValue, createdEmployee);
         }
@@ -46,3 +53,9 @@ namespace NajotTalim.HR.API.Controllers
         }
     }
 }
+
+/**
+ IEmployeeRepository interfeysini EmployeeController ga dependency injection orqali inject qildik.
+    IEmployeeRepository interfeysini MockEmployeeRepository orqali implement qildik.
+Bu mahkap bog'lanish oldini oladi
+ */
