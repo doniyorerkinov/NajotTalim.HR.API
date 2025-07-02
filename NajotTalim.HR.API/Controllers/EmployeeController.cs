@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NajotTalim.HR.API.Models;
+using System.Threading.Tasks;
 
 namespace NajotTalim.HR.API.Controllers
 {
@@ -42,8 +43,10 @@ namespace NajotTalim.HR.API.Controllers
 
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Employee employee)
         {
+          var updatedEmployee = await  _employeeRepository.UpdateEmployee(id, employee);
+            return Ok(updatedEmployee);
         }
 
         // DELETE api/<EmployeeController>/5

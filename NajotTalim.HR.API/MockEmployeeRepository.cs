@@ -50,5 +50,10 @@ namespace NajotTalim.HR.API
             return await Task.FromResult(employee);
         }
 
+        public async Task<Employee> UpdateEmployee(int id, Employee employee)
+        {
+            await Task.FromResult(_employees[id] = employee);
+            return _employees[id];
+        }
     }
 }
