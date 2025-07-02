@@ -51,8 +51,17 @@ namespace NajotTalim.HR.API.Controllers
 
         // DELETE api/<EmployeeController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            bool result = await _employeeRepository.DeleteEmployee(id);
+            if(result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return NotFound($"Employee with the given id: {id} not found.");
+            }
         }
     }
 }

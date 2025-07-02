@@ -55,5 +55,17 @@ namespace NajotTalim.HR.API
             await Task.FromResult(_employees[id] = employee);
             return _employees[id];
         }
+
+        public Task<bool> DeleteEmployee(int id)
+        {
+            if(_employees.ContainsKey(id))
+            {
+                _employees.TryRemove(id, out _);
+                return Task.FromResult(true);
+            } else
+            {
+                return Task.FromResult(false);
+            }
+        }
     }
 }

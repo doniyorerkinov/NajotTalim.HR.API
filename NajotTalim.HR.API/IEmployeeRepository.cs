@@ -10,5 +10,6 @@ namespace NajotTalim.HR.API
         
         Task<Employee> GetEmployee(int id);
         Task<Employee> UpdateEmployee(int id, Employee employee);
+        Task<bool> DeleteEmployee(int id);
     }
 }
