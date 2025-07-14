@@ -1,8 +1,7 @@
-﻿using NajotTalim.HR.API.Models;
+﻿using NajotTalim.HR.DataAccess.Entities;
 using System.Collections.Concurrent;
-using System.Threading.Tasks;
 
-namespace NajotTalim.HR.API
+namespace NajotTalim.HR.DataAccess
 {
     public class MockEmployeeRepository : IEmployeeRepository
     {

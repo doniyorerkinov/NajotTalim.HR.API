@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NajotTalim.HR.API.Models;
-using System.Threading.Tasks;
+using NajotTalim.HR.API.Services;
 
 namespace NajotTalim.HR.API.Controllers
 {
@@ -8,11 +8,11 @@ namespace NajotTalim.HR.API.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IGenericCRUDService<EmployeeModel> _employeeSvc;
 
-        public EmployeeController(IEmployeeRepository employeeRepository)
+        public EmployeeController(IGenericCRUDService<EmployeeModel> employeeSvc)
         {
-            _employeeRepository = employeeRepository;
+            _employeeSvc = employeeSvc;
         }
 
 
@@ -20,7 +20,7 @@ namespace NajotTalim.HR.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _employeeRepository.GetEmployees());
+            return Ok(await _employeeSvc.GetAll());
         }
 
         // GET api/<EmployeeController>/5
@@ -29,23 +29,23 @@ namespace NajotTalim.HR.API.Controllers
         {
             if (id == 0) return NotFound($"Employee with the given id: {id} not found.");
             else if (id < 0) return BadRequest("Wrong Data");
-            return Ok(await _employeeRepository.GetEmployee(id));
+            return Ok(await _employeeSvc.Get(id));
         }
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Employee employee)
+        public async Task<IActionResult> Post([FromBody] EmployeeModel employee)
         {
-            var createdEmployee = await _employeeRepository.CreateEmployee(employee);
+            var createdEmployee = await _employeeSvc.Create(employee);
             var routeValue = new { id = createdEmployee.Id };
           return CreatedAtRoute(routeValue, createdEmployee);
         }
 
         // PUT api/<EmployeeController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Employee employee)
+        public async Task<IActionResult> Put(int id, [FromBody] EmployeeModel employee)
         {
-          var updatedEmployee = await  _employeeRepository.UpdateEmployee(id, employee);
+          var updatedEmployee = await  _employeeSvc.Update(id, employee);
             return Ok(updatedEmployee);
         }
 
@@ -53,7 +53,7 @@ namespace NajotTalim.HR.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            bool result = await _employeeRepository.DeleteEmployee(id);
+            bool result = await _employeeSvc.Delete(id);
             if(result)
             {
                 return NoContent();

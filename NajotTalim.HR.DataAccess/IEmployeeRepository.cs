@@ -1,6 +1,6 @@
-﻿using NajotTalim.HR.API.Models;
+﻿using NajotTalim.HR.DataAccess.Entities;
 
-namespace NajotTalim.HR.API
+namespace NajotTalim.HR.DataAccess
 {
     public interface IEmployeeRepository
     {

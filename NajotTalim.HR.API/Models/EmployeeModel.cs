@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NajotTalim.HR.API.Models
 {
-    public class Employee
+    public class EmployeeModel
     {
         public int Id { get; set; }
         // Employee class da [Required] atributi ishlatiladi, bu modelni validatsiya qilish uchun
@@ -19,5 +19,7 @@ namespace NajotTalim.HR.API.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        public decimal Salary { get; set; }
     }
 }
