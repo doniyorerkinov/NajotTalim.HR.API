@@ -21,5 +21,7 @@ namespace NajotTalim.HR.API.Models
         public string Email { get; set; }
 
         public decimal Salary { get; set; }
+
+        public int AddressId { get; set; }
     }
 }

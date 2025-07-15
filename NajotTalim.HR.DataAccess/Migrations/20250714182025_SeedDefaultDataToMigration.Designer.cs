@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NajotTalim.HR.DataAccess;
 
@@ -11,9 +12,10 @@ using NajotTalim.HR.DataAccess;
 namespace NajotTalim.HR.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250714182025_SeedDefaultDataToMigration")]
+    partial class SeedDefaultDataToMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,17 +50,6 @@ namespace NajotTalim.HR.DataAccess.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Addresses");
-
-                    b.HasData(
-                        new
-                        {
-                            id = 999,
-                            AddressLine1 = "asdas",
-                            AddressLine2 = "asdas",
-                            City = "asdas",
-                            Country = "asdas",
-                            PostalCode = "asdas"
-                        });
                 });
 
             modelBuilder.Entity("NajotTalim.HR.DataAccess.Entities.Employee", b =>
